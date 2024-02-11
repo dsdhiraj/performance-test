@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_results_lists",
+  "info": {
+    "singularName": "user-results-list",
+    "pluralName": "user-results-lists",
+    "displayName": "userResultsList"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "userId": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "user_results_list"
+    },
+    "testId": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::test.test",
+      "inversedBy": "user_results_list"
+    },
+    "score": {
+      "type": "integer"
+    },
+    "DateCompleted": {
+      "type": "date"
+    }
+  }
+}

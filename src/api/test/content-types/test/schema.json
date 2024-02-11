@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tests",
+  "info": {
+    "singularName": "test",
+    "pluralName": "tests",
+    "displayName": "test"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "TestName": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "string"
+    },
+    "question_lists": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::question-list.question-list",
+      "mappedBy": "testId"
+    },
+    "user_results_list": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::user-results-list.user-results-list",
+      "mappedBy": "testId"
+    }
+  }
+}

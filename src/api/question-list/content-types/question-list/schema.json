@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "question_lists",
+  "info": {
+    "singularName": "question-list",
+    "pluralName": "question-lists",
+    "displayName": "questionList"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "testId": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::test.test",
+      "inversedBy": "question_lists"
+    },
+    "questionText": {
+      "type": "string"
+    },
+    "answers_lists": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::answers-list.answers-list",
+      "mappedBy": "questionId"
+    }
+  }
+}
