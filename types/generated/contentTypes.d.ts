@@ -362,156 +362,6 @@ export interface AdminTransferTokenPermission extends Schema.CollectionType {
   };
 }
 
-export interface ApiAnswersListAnswersList extends Schema.CollectionType {
-  collectionName: 'answers_lists';
-  info: {
-    singularName: 'answers-list';
-    pluralName: 'answers-lists';
-    displayName: 'answersList';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    questionId: Attribute.Relation<
-      'api::answers-list.answers-list',
-      'manyToOne',
-      'api::question-list.question-list'
-    >;
-    AnswerText: Attribute.String;
-    IsCorrect: Attribute.Boolean;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::answers-list.answers-list',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::answers-list.answers-list',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiQuestionListQuestionList extends Schema.CollectionType {
-  collectionName: 'question_lists';
-  info: {
-    singularName: 'question-list';
-    pluralName: 'question-lists';
-    displayName: 'questionList';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    testId: Attribute.Relation<
-      'api::question-list.question-list',
-      'manyToOne',
-      'api::test.test'
-    >;
-    questionText: Attribute.String;
-    answers_lists: Attribute.Relation<
-      'api::question-list.question-list',
-      'oneToMany',
-      'api::answers-list.answers-list'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::question-list.question-list',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::question-list.question-list',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
-export interface ApiTestTest extends Schema.CollectionType {
-  collectionName: 'tests';
-  info: {
-    singularName: 'test';
-    pluralName: 'tests';
-    displayName: 'test';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    TestName: Attribute.String;
-    Description: Attribute.String;
-    question_lists: Attribute.Relation<
-      'api::test.test',
-      'oneToMany',
-      'api::question-list.question-list'
-    >;
-    user_results_list: Attribute.Relation<
-      'api::test.test',
-      'oneToOne',
-      'api::user-results-list.user-results-list'
-    >;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<'api::test.test', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<'api::test.test', 'oneToOne', 'admin::user'> &
-      Attribute.Private;
-  };
-}
-
-export interface ApiUserResultsListUserResultsList
-  extends Schema.CollectionType {
-  collectionName: 'user_results_lists';
-  info: {
-    singularName: 'user-results-list';
-    pluralName: 'user-results-lists';
-    displayName: 'userResultsList';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    userId: Attribute.Relation<
-      'api::user-results-list.user-results-list',
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    testId: Attribute.Relation<
-      'api::user-results-list.user-results-list',
-      'oneToOne',
-      'api::test.test'
-    >;
-    score: Attribute.Integer;
-    DateCompleted: Attribute.Date;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    publishedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::user-results-list.user-results-list',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::user-results-list.user-results-list',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-  };
-}
-
 export interface PluginUploadFile extends Schema.CollectionType {
   collectionName: 'files';
   info: {
@@ -733,6 +583,53 @@ export interface PluginContentReleasesReleaseAction
   };
 }
 
+export interface PluginI18NLocale extends Schema.CollectionType {
+  collectionName: 'i18n_locale';
+  info: {
+    singularName: 'locale';
+    pluralName: 'locales';
+    collectionName: 'locales';
+    displayName: 'Locale';
+    description: '';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  pluginOptions: {
+    'content-manager': {
+      visible: false;
+    };
+    'content-type-builder': {
+      visible: false;
+    };
+  };
+  attributes: {
+    name: Attribute.String &
+      Attribute.SetMinMax<
+        {
+          min: 1;
+          max: 50;
+        },
+        number
+      >;
+    code: Attribute.String & Attribute.Unique;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'plugin::i18n.locale',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface PluginUsersPermissionsPermission
   extends Schema.CollectionType {
   collectionName: 'up_permissions';
@@ -889,46 +786,149 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
   };
 }
 
-export interface PluginI18NLocale extends Schema.CollectionType {
-  collectionName: 'i18n_locale';
+export interface ApiAnswersListAnswersList extends Schema.CollectionType {
+  collectionName: 'answers_lists';
   info: {
-    singularName: 'locale';
-    pluralName: 'locales';
-    collectionName: 'locales';
-    displayName: 'Locale';
-    description: '';
+    singularName: 'answers-list';
+    pluralName: 'answers-lists';
+    displayName: 'answersList';
   };
   options: {
-    draftAndPublish: false;
-  };
-  pluginOptions: {
-    'content-manager': {
-      visible: false;
-    };
-    'content-type-builder': {
-      visible: false;
-    };
+    draftAndPublish: true;
   };
   attributes: {
-    name: Attribute.String &
-      Attribute.SetMinMax<
-        {
-          min: 1;
-          max: 50;
-        },
-        number
-      >;
-    code: Attribute.String & Attribute.Unique;
+    questionId: Attribute.Relation<
+      'api::answers-list.answers-list',
+      'manyToOne',
+      'api::question-list.question-list'
+    >;
+    AnswerText: Attribute.String;
+    IsCorrect: Attribute.Boolean;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::answers-list.answers-list',
       'oneToOne',
       'admin::user'
     > &
       Attribute.Private;
     updatedBy: Attribute.Relation<
-      'plugin::i18n.locale',
+      'api::answers-list.answers-list',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiQuestionListQuestionList extends Schema.CollectionType {
+  collectionName: 'question_lists';
+  info: {
+    singularName: 'question-list';
+    pluralName: 'question-lists';
+    displayName: 'questionList';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    testId: Attribute.Relation<
+      'api::question-list.question-list',
+      'manyToOne',
+      'api::test.test'
+    >;
+    questionText: Attribute.String;
+    answers_lists: Attribute.Relation<
+      'api::question-list.question-list',
+      'oneToMany',
+      'api::answers-list.answers-list'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::question-list.question-list',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::question-list.question-list',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
+export interface ApiTestTest extends Schema.CollectionType {
+  collectionName: 'tests';
+  info: {
+    singularName: 'test';
+    pluralName: 'tests';
+    displayName: 'test';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    TestName: Attribute.String;
+    Description: Attribute.String;
+    question_lists: Attribute.Relation<
+      'api::test.test',
+      'oneToMany',
+      'api::question-list.question-list'
+    >;
+    user_results_list: Attribute.Relation<
+      'api::test.test',
+      'oneToOne',
+      'api::user-results-list.user-results-list'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<'api::test.test', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<'api::test.test', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+  };
+}
+
+export interface ApiUserResultsListUserResultsList
+  extends Schema.CollectionType {
+  collectionName: 'user_results_lists';
+  info: {
+    singularName: 'user-results-list';
+    pluralName: 'user-results-lists';
+    displayName: 'userResultsList';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    userId: Attribute.Relation<
+      'api::user-results-list.user-results-list',
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    testId: Attribute.Relation<
+      'api::user-results-list.user-results-list',
+      'oneToOne',
+      'api::test.test'
+    >;
+    score: Attribute.Integer;
+    DateCompleted: Attribute.Date;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::user-results-list.user-results-list',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::user-results-list.user-results-list',
       'oneToOne',
       'admin::user'
     > &
@@ -946,18 +946,18 @@ declare module '@strapi/types' {
       'admin::api-token-permission': AdminApiTokenPermission;
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
-      'api::answers-list.answers-list': ApiAnswersListAnswersList;
-      'api::question-list.question-list': ApiQuestionListQuestionList;
-      'api::test.test': ApiTestTest;
-      'api::user-results-list.user-results-list': ApiUserResultsListUserResultsList;
       'plugin::upload.file': PluginUploadFile;
       'plugin::upload.folder': PluginUploadFolder;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
+      'plugin::i18n.locale': PluginI18NLocale;
       'plugin::users-permissions.permission': PluginUsersPermissionsPermission;
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
-      'plugin::i18n.locale': PluginI18NLocale;
+      'api::answers-list.answers-list': ApiAnswersListAnswersList;
+      'api::question-list.question-list': ApiQuestionListQuestionList;
+      'api::test.test': ApiTestTest;
+      'api::user-results-list.user-results-list': ApiUserResultsListUserResultsList;
     }
   }
 }
